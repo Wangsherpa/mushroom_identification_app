@@ -27,11 +27,13 @@ model, index2label = load_files()
 
 # file uploader to upload image
 image_uploaded = st.file_uploader("Upload mushroom image")
+col1, col2 = st.beta_columns((1.2, 2))
 if image_uploaded:
 
     image = tf.io.decode_image(image_uploaded.read())
     image_copy = tf.image.resize(image, [300, 300])
-    st.image(image_copy.numpy().squeeze().astype(np.uint8), clamp=True, channels='RGB')
+    with col1:
+        st.image(image_copy.numpy().squeeze().astype(np.uint8), clamp=True, channels='RGB')
 
     if st.button("Predict"):
 
@@ -51,7 +53,7 @@ if image_uploaded:
         # get a matplotlib figure
         fig = plt.figure(figsize=(4, 2))
         # plot a barplot
-        ax = sns.barplot(class_names, class_scores, errwidth=5)
+        ax = sns.barplot(x=class_names, y=class_scores, errwidth=5)
         # show percentages on top
         patches = ax.patches
         for i in range(len(patches)):
@@ -62,4 +64,5 @@ if image_uploaded:
         plt.ylabel("Probability")
         plt.xlabel("Mushroom Type")
         # display figure
-        st.pyplot(fig)
+        with col2:
+            st.pyplot(fig)
