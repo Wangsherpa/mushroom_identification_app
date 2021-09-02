@@ -31,7 +31,6 @@ if image_uploaded:
 
     image = tf.io.decode_image(image_uploaded.read())
     image_copy = tf.image.resize(image, [300, 300])
-    print(image_copy)
     st.image(image_copy.numpy().squeeze().astype(np.uint8), clamp=True, channels='RGB')
 
     if st.button("Predict"):
